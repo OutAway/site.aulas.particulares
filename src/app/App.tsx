@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Menu, X, ArrowRight, Star, Check, ChevronDown, Zap, Clock, Users, Award } from "lucide-react";
 
-const IMG_HERO = "https://images.unsplash.com/photo-1746688833041-4681ba4d5cf4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0dXRvciUyMHRlYWNoZXIlMjB5b3VuZyUyMHNtaWxpbmclMjBjbG9zZXxlbnwxfHx8fDE3NzIwMzMyMzR8MA&ixlib=rb-4.1.0&q=80&w=1080";
+const IMG_HERO = "https://images.stockcake.com/public/7/0/5/705b5b30-2a4a-4b44-9ff2-a6be6693e4b5/excited-classroom-kids-stockcake.jpg";
 const IMG_STUDENT1 = "https://images.unsplash.com/photo-1612200116836-dd1f35662adf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx5b3VuZyUyMHdvbWFuJTIwc3R1ZHlpbmclMjBub3RlcyUyMGNvbG9yZnVsfGVufDF8fHx8MTc3MjAzMzIzM3ww&ixlib=rb-4.1.0&q=80&w=1080";
 const IMG_STUDENT2 = "https://images.unsplash.com/photo-1663229048665-01e8b7807cfb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdHVkZW50JTIwZXhjaXRlZCUyMGxlYXJuaW5nJTIwYm9va3N8ZW58MXx8fHwxNzcyMDMzMjM0fDA&ixlib=rb-4.1.0&q=80&w=1080";
+const IMG_STUDENT3 = "https://i.imgur.com/dJm3BuT.png";
+const IMG_STUDENT4 = "https://i.imgur.com/1AHo3FI.png";
+const IMG_STUDENT5 = "https://i.imgur.com/eb0E6ow.png";
 
 const subjects = [
   { emoji: "📐", name: "Matemática", level: "Fund. • Médio • Vestibular", color: "bg-yellow-400", textColor: "text-yellow-900" },
@@ -18,9 +21,9 @@ const subjects = [
 ];
 
 const testimonials = [
-  { name: "Raquel Souza", role: "Aprovada na FUVEST", text: "Em 4 meses de aula, passei no vestibular que tanto sonhei!", stars: 5, img: IMG_STUDENT1 },
-  { name: "Amanda Lima", role: "Nutrição UVV", text: "Sem a ajuda do João eu jamais teria conseguido terminar meu TCC. Muito obrigada!", stars: 5, img: IMG_STUDENT2 },
-  { name: "Pedro Costa", role: "Aluno do 3º ano", text: "Fui aluno do Rauta durante meu pré-vestibular e hoje sou formado em História pela UFES. Valeu mesmo, irmão!", stars: 5, img: IMG_HERO },
+  { name: "Raquel Souza", role: "Aprovada na FUVEST", text: "Em 4 meses de aula, passei no vestibular que tanto sonhei!", stars: 5, img: IMG_STUDENT3 },
+  { name: "Amanda Lima", role: "Nutrição UVV", text: "Sem a ajuda do João eu jamais teria conseguido terminar meu TCC. Muito obrigada!", stars: 5, img: IMG_STUDENT4 },
+  { name: "Pedro Costa", role: "Aluno do 3º ano", text: "Fui aluno do Rauta durante meu pré-vestibular e hoje sou formado em História pela UFES. Valeu mesmo, irmão!", stars: 5, img: IMG_STUDENT5 },
 ];
 
 const faqs = [

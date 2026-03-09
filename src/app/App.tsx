@@ -3,7 +3,7 @@ import { Menu, X, ArrowRight, Star, Check, ChevronDown, Zap, Clock, Users, Award
 
 const IMG_HERO = "https://images.stockcake.com/public/7/0/5/705b5b30-2a4a-4b44-9ff2-a6be6693e4b5/excited-classroom-kids-stockcake.jpg";
 const IMG_STUDENT1 = "https://i.imgur.com/2QzmZ6e.png";
-const IMG_STUDENT2 = "https://i.imgur.com/2QzmZ6e.png";
+const IMG_STUDENT2 = "https://i.imgur.com/Rr5Uqem.png";
 const IMG_STUDENT3 = "https://i.imgur.com/dJm3BuT.png";
 const IMG_STUDENT4 = "https://i.imgur.com/1AHo3FI.png";
 const IMG_STUDENT5 = "https://i.imgur.com/eb0E6ow.png";

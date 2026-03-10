@@ -3,7 +3,6 @@ import { Menu, X, ArrowRight, Star, Check, ChevronDown, Zap, Clock, Users, Award
 
 const IMG_HERO = "https://images.stockcake.com/public/7/0/5/705b5b30-2a4a-4b44-9ff2-a6be6693e4b5/excited-classroom-kids-stockcake.jpg";
 const IMG_STUDENT1 = "https://i.imgur.com/Rr5Uqem.png";
-const IMG_STUDENT2 = "https://i.imgur.com/Rr5Uqem.png";
 const IMG_STUDENT3 = "https://i.imgur.com/dJm3BuT.png";
 const IMG_STUDENT4 = "https://i.imgur.com/1AHo3FI.png";
 const IMG_STUDENT5 = "https://i.imgur.com/eb0E6ow.png";
@@ -33,18 +32,52 @@ const faqs = [
   { q: "Como funciona o pagamento?", a: "PIX, dinheiro ou cartão. O pagamento pode ser realizado por aula ou em pacotes." },
   { q: "Vocês fazem plano de estudos?", a: "Sim, um cronograma personalizado é montado pra cada aluno com base nos seus objetivos." },
   { q: "E os alunos com necessidades especiais?", a: "Todo aluno é bem vindo. Os métodos são personalizado de acordo com as necessidades de cada um." },
-
 ];
+
+// ─────────────────────────────────────────────────────────────
+// INSTRUÇÕES PARA ATIVAR O FORMULÁRIO:
+//
+// 1. Acesse https://formspree.io e crie uma conta gratuita
+// 2. Crie um novo formulário apontando para joao.paulo.rauta@gmail.com
+// 3. Copie o endpoint gerado (ex: https://formspree.io/f/xyzabcde)
+// 4. Substitua a constante FORMSPREE_ENDPOINT abaixo pelo seu endpoint
+// ─────────────────────────────────────────────────────────────
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/SEU_ID_AQUI";
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("sending");
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          subject: form.subject || "Não informada",
+          message: form.message,
+        }),
+      });
+      if (res.ok) {
+        setStatus("sent");
+        setForm({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -113,7 +146,6 @@ export default function App() {
                 <span className="relative z-10" style={{ color: "#F97316" }}> chegar lá.</span>
                 <span className="absolute bottom-1 left-0 right-0 h-3 -z-0" style={{ backgroundColor: "#FDE68A", transform: "skewX(-3deg)" }} />
               </span>{" "}
-              
             </h1>
 
             <p className="mb-8 max-w-lg" style={{ color: "#555", lineHeight: 1.7 }}>
@@ -347,8 +379,7 @@ export default function App() {
               { name: "Avulso", price: "R$ 60", sub: "por hora", bg: "#FFFBF0", accent: "#6EE7B7", features: ["1 matéria", "Horário flexível", "Material de apoio", "Suporte por WhatsApp"], highlight: false },
               { name: "Semanal", price: "R$ 150", sub: "3 aulas/semana", bg: "#F97316", accent: "#FDE68A", features: ["Até 3 matérias", "3 aulas semanais", "Plano personalizado", "Suporte ilimitado", "Simulados e exercícios para casa"], highlight: true },
               { name: "Premium", price: "R$ 230", sub: "5 aulas/semana", bg: "#FFFBF0", accent: "#A78BFA", features: ["Matérias ilimitadas", "5 aulas semanais", "Plano completo", "Suporte ilimitado", "Simulados + exercícios para casa + apoio online"], highlight: false },
-             
-    ].map((plan) => (
+            ].map((plan) => (
               <div
                 key={plan.name}
                 className={`p-7 rounded-2xl flex flex-col transition-all hover:-translate-y-2 duration-200 ${plan.highlight ? "scale-105" : ""}`}
@@ -431,46 +462,40 @@ export default function App() {
             </p>
             <div className="space-y-4">
               {[
-    { emoji: "📱", label: "WhatsApp", val: "(27) 99627-9505", link: "https://wa.me/5527996279505?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20as%20aulas." },
-    { emoji: "📧", label: "E-mail", val: "joao.paulo.rauta@gmail.com" },
-    { emoji: "📍", label: "Local", val: "Piúma, ES — Online no Brasil todo" },
-    { emoji: "🕐", label: "Horários", val: "Seg–Sáb, 7h às 21h" },
-  ].map((item) => (
-    <div key={item.label} className="flex items-center gap-4 p-4 rounded-xl" style={{ backgroundColor: "#FFFBF0", border: "2px solid #1a1a1a", boxShadow: "3px 3px 0 #1a1a1a" }}>
-      <span className="text-2xl">{item.emoji}</span>
-      <div>
-        <div style={{ fontSize: "11px", color: "#888", textTransform: "uppercase", letterSpacing: "0.08em" }}>{item.label}</div>
-        {item.link ? (
-          <a
-            href={item.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: "#1a1a1a", fontSize: "14px", textDecoration: "none" }}
-            className="hover:underline"
-          >
-            {item.val}
-          </a>
-        ) : (
-          <div style={{ color: "#1a1a1a", fontSize: "14px" }}>{item.val}</div>
-        )}
-      </div>
-    </div>
-  ))}
+                { emoji: "📱", label: "WhatsApp", val: "(27) 99627-9505", link: "https://wa.me/5527996279505?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20as%20aulas." },
+                { emoji: "📧", label: "E-mail", val: "joao.paulo.rauta@gmail.com" },
+                { emoji: "📍", label: "Local", val: "Piúma, ES — Online no Brasil todo" },
+                { emoji: "🕐", label: "Horários", val: "Seg–Sáb, 7h às 21h" },
+              ].map((item) => (
+                <div key={item.label} className="flex items-center gap-4 p-4 rounded-xl" style={{ backgroundColor: "#FFFBF0", border: "2px solid #1a1a1a", boxShadow: "3px 3px 0 #1a1a1a" }}>
+                  <span className="text-2xl">{item.emoji}</span>
+                  <div>
+                    <div style={{ fontSize: "11px", color: "#888", textTransform: "uppercase", letterSpacing: "0.08em" }}>{item.label}</div>
+                    {item.link ? (
+                      <a href={item.link} target="_blank" rel="noopener noreferrer" style={{ color: "#1a1a1a", fontSize: "14px", textDecoration: "none" }} className="hover:underline">
+                        {item.val}
+                      </a>
+                    ) : (
+                      <div style={{ color: "#1a1a1a", fontSize: "14px" }}>{item.val}</div>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
           <div className="p-8 rounded-2xl" style={{ backgroundColor: "#FFFBF0", border: "2px solid #1a1a1a", boxShadow: "6px 6px 0 #1a1a1a" }}>
-            {sent ? (
+            {status === "sent" ? (
               <div className="text-center py-10">
                 <div className="text-6xl mb-4">🎉</div>
                 <h3 style={{ color: "#1a1a1a", fontSize: "24px", letterSpacing: "-0.03em" }} className="mb-2">Mensagem enviada!</h3>
                 <p style={{ color: "#666", fontSize: "14px" }}>Entrarei em contato em breve. Até logo!</p>
-                <button onClick={() => setSent(false)} className="mt-6 text-sm" style={{ color: "#F97316", textDecoration: "underline" }}>
+                <button onClick={() => setStatus("idle")} className="mt-6 text-sm" style={{ color: "#F97316", textDecoration: "underline" }}>
                   Enviar outra mensagem
                 </button>
               </div>
             ) : (
-              <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <h3 style={{ fontSize: "20px", color: "#1a1a1a", letterSpacing: "-0.03em", marginBottom: "16px" }}>Manda uma mensagem 👇</h3>
                 {[
                   { label: "Seu nome *", key: "name", type: "text", placeholder: "Como posso te chamar?" },
@@ -513,23 +538,29 @@ export default function App() {
                     style={{ border: "2px solid #1a1a1a", backgroundColor: "#fff", color: "#1a1a1a" }}
                   />
                 </div>
+
+                {status === "error" && (
+                  <p style={{ color: "#dc2626", fontSize: "13px", backgroundColor: "#fee2e2", padding: "10px 14px", borderRadius: "10px", border: "1.5px solid #dc2626" }}>
+                    Erro ao enviar. Tente novamente ou fale pelo WhatsApp.
+                  </p>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full py-4 rounded-xl text-sm transition-all hover:-translate-y-1 active:translate-y-0"
+                  disabled={status === "sending"}
+                  className="w-full py-4 rounded-xl text-sm transition-all hover:-translate-y-1 active:translate-y-0 disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0"
                   style={{ backgroundColor: "#1a1a1a", color: "#FDE68A", border: "2px solid #1a1a1a", boxShadow: "4px 4px 0 #F97316" }}
                 >
-                  Enviar mensagem 🚀
+                  {status === "sending" ? "Enviando..." : "Enviar mensagem 🚀"}
                 </button>
               </form>
             )}
           </div>
         </div>
       </section>
-      
 
       {/* ───────────── FOOTER ───────────── */}
       <footer className="py-8" style={{ backgroundColor: "#1a1a1a", borderTop: "2px solid #333" }}>
-        
         <div className="max-w-6xl mx-auto px-5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <span className="text-xl">✏️</span>
